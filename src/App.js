@@ -18,12 +18,16 @@ import {
   ChevronRight,
   Database,
   BarChart3,
-  Globe
+  Globe,
+  Instagram,
+  Twitter,
+  LayoutGrid,
+  Bot
 } from 'lucide-react';
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
-  const [activeSection, setActiveSection] = useState('home'); 
+  const [activeSection, setActiveSection] = useState('home');
 
   useEffect(() => {
     if (darkMode) {
@@ -41,6 +45,10 @@ const App = () => {
     location: "Namakkal, Tamil Nadu, India",
     github: "https://github.com/GOPIKRISHNAN-S-15",
     linkedin: "https://www.linkedin.com/in/gopi15/",
+    kaggle: "https://www.kaggle.com/gopikrishhhh",
+    huggingface: "https://huggingface.co/Krishnan15",
+    instagram: "https://www.instagram.com/gopi_krishnan_15/",
+    twitter: "https://x.com/Gopikrishn1300"
   };
 
   const sections = [
@@ -106,9 +114,9 @@ const App = () => {
                 {darkMode ? <Sun size={20} /> : <Moon size={20} />}
               </button>
               <a
-                href="/Resume.pdf"
+                href="/Gopi_Krishnan_Resume.pdf"
                 download
-                className="hidden sm:flex items-center gap-2 bg-primary-600 hover:bg-primary-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-primary-500/20"
+                className="hidden sm:flex items-center gap-2 bg-gradient-to-r from-primary-600 to-indigo-600 hover:from-primary-700 hover:to-indigo-700 text-white px-5 py-2.5 rounded-full text-sm font-semibold transition-all transform hover:scale-105 active:scale-95 shadow-lg shadow-primary-500/25"
               >
                 <Download size={16} />
                 Resume
@@ -121,8 +129,10 @@ const App = () => {
       {/* Hero Section */}
       <header id="home" className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full -z-10">
-          <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary-500/10 blur-[120px] rounded-full" />
-          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-500/10 blur-[120px] rounded-full" />
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary-500/20 blur-[130px] rounded-full animate-pulse" />
+          <div className="absolute bottom-[10%] right-[-5%] w-[45%] h-[45%] bg-purple-500/20 blur-[130px] rounded-full animate-pulse delay-700" />
+          <div className="absolute top-[20%] right-[10%] w-[40%] h-[40%] bg-indigo-500/15 blur-[120px] rounded-full animate-pulse delay-500" />
+          <div className="absolute bottom-[-10%] left-[5%] w-[40%] h-[40%] bg-pink-500/15 blur-[120px] rounded-full animate-pulse delay-200" />
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -152,23 +162,26 @@ const App = () => {
               </div>
             </div>
 
-            <div className="mt-12 flex justify-center gap-6">
-              <motion.a
-                whileHover={{ y: -5 }}
-                href={personalInfo.github}
-                className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 hover:text-primary-500 transition-colors"
-                target="_blank" rel="noopener noreferrer"
-              >
-                <Github size={24} />
-              </motion.a>
-              <motion.a
-                whileHover={{ y: -5 }}
-                href={personalInfo.linkedin}
-                className="p-3 rounded-full bg-slate-100 dark:bg-slate-800 hover:text-primary-500 transition-colors"
-                target="_blank" rel="noopener noreferrer"
-              >
-                <Linkedin size={24} />
-              </motion.a>
+            <div className="mt-12 flex flex-wrap justify-center gap-4">
+              {[
+                { icon: <Github size={22} />, href: personalInfo.github, color: 'hover:text-black dark:hover:text-white', label: 'GitHub' },
+                { icon: <Linkedin size={22} />, href: personalInfo.linkedin, color: 'hover:text-blue-600', label: 'LinkedIn' },
+                { icon: <LayoutGrid size={22} />, href: personalInfo.kaggle, color: 'hover:text-blue-400', label: 'Kaggle' },
+                { icon: <Bot size={22} />, href: personalInfo.huggingface, color: 'hover:text-yellow-500', label: 'Hugging Face' },
+                { icon: <Instagram size={22} />, href: personalInfo.instagram, color: 'hover:text-pink-600', label: 'Instagram' },
+                { icon: <Twitter size={22} />, href: personalInfo.twitter, color: 'hover:text-blue-400', label: 'Twitter' }
+              ].map((social, i) => (
+                <motion.a
+                  key={i}
+                  whileHover={{ y: -5, scale: 1.1 }}
+                  href={social.href}
+                  className={`p-3 rounded-2xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 transition-all ${social.color}`}
+                  target="_blank" rel="noopener noreferrer"
+                  aria-label={social.label}
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
             </div>
           </motion.div>
         </div>
@@ -256,21 +269,21 @@ const App = () => {
           <SectionHeading icon={<Code2 size={24} />}>Technical Skills</SectionHeading>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {[
-              { name: "Python", category: "Languages" },
-              { name: "Java", category: "Languages" },
-              { name: "C / C++", category: "Languages" },
-              { name: "SQL", category: "Databases" },
-              { name: "Power BI", category: "Visualization" },
-              { name: "Tableau", category: "Visualization" },
-              { name: "Excel", category: "Tools" },
-              { name: "Data Structures", category: "Computer Science" },
+              { name: "Python", category: "Languages", gradient: 'from-blue-500/20 to-blue-600/20', border: 'hover:border-blue-500/50' },
+              { name: "Java", category: "Languages", gradient: 'from-red-500/20 to-orange-600/20', border: 'hover:border-red-500/50' },
+              { name: "C / C++", category: "Languages", gradient: 'from-blue-600/20 to-indigo-700/20', border: 'hover:border-blue-600/50' },
+              { name: "SQL", category: "Databases", gradient: 'from-cyan-500/20 to-blue-500/20', border: 'hover:border-cyan-500/50' },
+              { name: "Power BI", category: "Visualization", gradient: 'from-yellow-400/20 to-amber-600/20', border: 'hover:border-yellow-500/50' },
+              { name: "Tableau", category: "Visualization", gradient: 'from-indigo-500/20 to-blue-600/20', border: 'hover:border-indigo-500/50' },
+              { name: "Excel", category: "Tools", gradient: 'from-green-500/20 to-emerald-600/20', border: 'hover:border-green-500/50' },
+              { name: "Data Structures", category: "Computer Science", gradient: 'from-purple-500/20 to-pink-600/20', border: 'hover:border-purple-500/50' },
             ].map((skill, i) => (
               <motion.div
                 key={i}
-                whileHover={{ scale: 1.05 }}
-                className="p-6 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border border-transparent hover:border-primary-500/30 transition-all group"
+                whileHover={{ scale: 1.05, y: -5 }}
+                className={`p-6 rounded-3xl bg-gradient-to-br ${skill.gradient} border border-slate-200/50 dark:border-slate-800/50 ${skill.border} transition-all group backdrop-blur-sm`}
               >
-                <div className="text-xs font-bold text-primary-500 uppercase tracking-wider mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="text-xs font-bold text-primary-500 uppercase tracking-wider mb-2">
                   {skill.category}
                 </div>
                 <h4 className="text-lg font-bold">{skill.name}</h4>
@@ -287,25 +300,28 @@ const App = () => {
               {
                 title: "Wealth Navigator",
                 description: "IBM Cognos based financial analytics tool providing deep insights into investment patterns and wealth management.",
-                tags: ["Cognos", "FinTech", "Analytics"]
+                tags: ["Cognos", "FinTech", "Analytics"],
+                color: "from-blue-500/20 to-indigo-500/20"
               },
               {
                 title: "Web Crawler",
                 description: "A efficient web crawler implementation using advanced C Data Structures for high-speed indexing.",
-                tags: ["C", "Algorithms", "Networking"]
+                tags: ["C", "Algorithms", "Networking"],
+                color: "from-emerald-500/20 to-teal-500/20"
               },
               {
                 title: "Auction Management",
                 description: "Robust backend system for managing real-time auctions with secure transaction handling in Java.",
-                tags: ["Java", "OOP", "Systems"]
+                tags: ["Java", "OOP", "Systems"],
+                color: "from-orange-500/20 to-rose-500/20"
               }
             ].map((project, i) => (
               <motion.div
                 key={i}
-                whileHover={{ y: -10 }}
-                className="flex flex-col h-full p-8 rounded-3xl bg-slate-100 dark:bg-slate-800/50 border border-white/10"
+                whileHover={{ y: -10, boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)' }}
+                className={`flex flex-col h-full p-8 rounded-3xl bg-gradient-to-br ${project.color} border border-white/10 backdrop-blur-md`}
               >
-                <div className="mb-6 p-4 w-fit rounded-2xl bg-primary-500/10 text-primary-500">
+                <div className="mb-6 p-4 w-fit rounded-2xl bg-white/50 dark:bg-slate-800/50 text-primary-500 shadow-inner">
                   <BarChart3 size={32} />
                 </div>
                 <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
@@ -314,7 +330,7 @@ const App = () => {
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {project.tags.map(tag => (
-                    <span key={tag} className="text-xs font-semibold px-2.5 py-1 bg-primary-500/10 text-primary-500 rounded-md">
+                    <span key={tag} className="text-xs font-semibold px-2.5 py-1 bg-white/50 dark:bg-slate-800/50 text-primary-600 dark:text-primary-400 rounded-lg border border-primary-500/10">
                       {tag}
                     </span>
                   ))}
@@ -409,16 +425,25 @@ const App = () => {
             <p className="mt-2 text-sm text-slate-500">© 2026 {personalInfo.name}. All rights reserved.</p>
           </div>
 
-          <div className="flex gap-6">
-            <a href={personalInfo.github} className="text-slate-500 hover:text-primary-500 transition-colors">
-              <Github size={20} />
-            </a>
-            <a href={personalInfo.linkedin} className="text-slate-500 hover:text-primary-500 transition-colors">
-              <Linkedin size={20} />
-            </a>
-            <a href={`mailto:${personalInfo.email}`} className="text-slate-500 hover:text-primary-500 transition-colors">
-              <Mail size={20} />
-            </a>
+          <div className="flex flex-wrap justify-center gap-5">
+            {[
+              { icon: <Github size={20} />, href: personalInfo.github },
+              { icon: <Linkedin size={20} />, href: personalInfo.linkedin },
+              { icon: <LayoutGrid size={20} />, href: personalInfo.kaggle },
+              { icon: <Bot size={20} />, href: personalInfo.huggingface },
+              { icon: <Instagram size={20} />, href: personalInfo.instagram },
+              { icon: <Twitter size={20} />, href: personalInfo.twitter },
+              { icon: <Mail size={20} />, href: `mailto:${personalInfo.email}` }
+            ].map((social, i) => (
+              <a
+                key={i}
+                href={social.href}
+                className="text-slate-500 hover:text-primary-500 transition-all transform hover:scale-110"
+                target="_blank" rel="noopener noreferrer"
+              >
+                {social.icon}
+              </a>
+            ))}
           </div>
         </div>
       </footer>
