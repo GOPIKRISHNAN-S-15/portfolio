@@ -23,7 +23,7 @@ import {
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
-  const [activeSection, setActiveSection] = useState('home');
+  const [activeSection, setActiveSection] = useState('home'); 
 
   useEffect(() => {
     if (darkMode) {
