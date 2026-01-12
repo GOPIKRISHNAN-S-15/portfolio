@@ -24,3 +24,62 @@
 .glass-morphism {
   @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-md border border-white/20 dark:border-slate-800/50;
 }
+
+/* Advanced Effects */
+.spotlight-card {
+  @apply relative overflow-hidden;
+}
+
+.spotlight-card::before {
+  content: "";
+  @apply absolute inset-0 opacity-0 transition-opacity duration-300 pointer-events-none;
+  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
+      rgba(14, 165, 233, 0.15),
+      transparent 40%);
+}
+
+.dark .spotlight-card::before {
+  background: radial-gradient(600px circle at var(--mouse-x) var(--mouse-y),
+      rgba(14, 165, 233, 0.25),
+      transparent 40%);
+}
+
+.spotlight-card:hover::before {
+  @apply opacity-100;
+}
+
+.magnetic-item {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.mouse-follower {
+  @apply fixed top-0 left-0 w-8 h-8 rounded-full border border-primary-500 pointer-events-none z-[9999] mix-blend-difference hidden lg:block;
+  transition: width 0.3s, height 0.3s, background-color 0.3s;
+}
+
+.mouse-follower.active {
+  @apply w-12 h-12 bg-primary-500/20 mix-blend-normal;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 8s ease-in-out infinite 1s;
+}
