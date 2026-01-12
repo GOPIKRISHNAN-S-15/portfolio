@@ -127,6 +127,117 @@ const Magnetic = ({ children }) => {
   );
 };
 
+const DynamicMesh = () => {
+  const canvasRef = useRef(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let animationFrameId;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', resize);
+    resize();
+
+    const mouse = { x: -1000, y: -1000, active: false };
+    const onMouseMove = (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    };
+    const onMouseLeave = () => {
+      mouse.active = false;
+    };
+
+    window.addEventListener('mousemove', onMouseMove);
+    window.addEventListener('mouseleave', onMouseLeave);
+
+    const particles = [];
+    const particleCount = Math.min(Math.floor((window.innerWidth * window.innerHeight) / 10000), 100);
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        radius: Math.random() * 1.5 + 0.5,
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const isDark = document.documentElement.classList.contains('dark');
+      const particleColor = isDark ? 'rgba(14, 165, 233, 0.4)' : 'rgba(14, 165, 233, 0.2)';
+      const lineColor = isDark ? 'rgba(14, 165, 233, 0.1)' : 'rgba(14, 165, 233, 0.05)';
+
+      particles.forEach((p, i) => {
+        // Move
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Bounce
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        // Mouse avoidance
+        if (mouse.active) {
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 150) {
+            const force = (150 - dist) / 150;
+            const angle = Math.atan2(dy, dx);
+            p.x -= Math.cos(angle) * force * 2;
+            p.y -= Math.sin(angle) * force * 2;
+          }
+        }
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = particleColor;
+        ctx.fill();
+
+        // Connections
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const dx = p.x - p2.x;
+          const dy = p.y - p2.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 150) {
+            ctx.beginPath();
+            ctx.strokeStyle = lineColor;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.stroke();
+          }
+        }
+      });
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      cancelAnimationFrame(animationFrameId);
+      window.removeEventListener('resize', resize);
+      window.removeEventListener('mousemove', onMouseMove);
+      window.removeEventListener('mouseleave', onMouseLeave);
+    };
+  }, []);
+
+  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-0" />;
+};
+
 const App = () => {
   const [darkMode, setDarkMode] = useState(true);
   const [activeSection, setActiveSection] = useState('home');
@@ -178,6 +289,7 @@ const App = () => {
   };
   return (
     <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-slate-100 font-sans selection:bg-primary-500/30">
+      <DynamicMesh />
       <MouseFollower />
 
       {/* Scroll Progress Bar */}
@@ -279,7 +391,7 @@ const App = () => {
               </div>
             </div>
 
-            <div className="mt-16 flex flex-wrap justify-center gap-6">
+            <div className="mt-16 flex flex-wrap justify-center items-center gap-6">
               {[
                 { icon: <Github size={24} />, href: personalInfo.github, color: 'hover:text-black dark:hover:text-white', label: 'GitHub' },
                 { icon: <Linkedin size={24} />, href: personalInfo.linkedin, color: 'hover:text-blue-600', label: 'LinkedIn' },
@@ -292,7 +404,7 @@ const App = () => {
                   <motion.a
                     whileHover={{ y: -8, scale: 1.15 }}
                     href={social.href}
-                    className={`p-4 rounded-2xl bg-white dark:bg-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-700 transition-all ${social.color}`}
+                    className={`flex items-center justify-center p-4 rounded-2xl bg-white dark:bg-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-700 transition-all ${social.color}`}
                     target="_blank" rel="noopener noreferrer"
                     aria-label={social.label}
                   >
@@ -322,7 +434,7 @@ const App = () => {
                 </SpotlightCard>
                 <SpotlightCard className="p-6 rounded-3xl bg-slate-100 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700">
                   <h4 className="text-primary-500 font-bold text-4xl mb-2">2x</h4>
-                  <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest">Global Honor</p>
+                  <p className="text-sm font-semibold text-slate-500 uppercase tracking-widest">Student of Month Award</p>
                 </SpotlightCard>
               </div>
             </motion.div>
@@ -339,7 +451,7 @@ const App = () => {
                   className="text-center p-8"
                 >
                   <Database size={80} className="mx-auto mb-6 text-primary-500" />
-                  <p className="text-lg font-mono text-primary-500/80 font-bold tracking-tighter">NEURAL_NETWORK_ACTIVE</p>
+                  <p className="text-lg font-mono text-primary-500/80 font-bold tracking-tighter">AI_RESEARCH_ACTIVE</p>
                 </motion.div>
               </div>
             </motion.div>
@@ -426,24 +538,27 @@ const App = () => {
             {[
               {
                 title: "Wealth Navigator",
-                description: "IBM Cognos powered financial suite delivering real-time predictive analytics and asset management insights.",
-                tags: ["Cognos", "FinTech", "AI"],
+                description: "Built an end-to-end financial dashboard using IBM Cognos for predictive analytics.",
+                tags: ["Cognos", "SQL", "Analytics"],
                 color: "from-blue-500/20 to-indigo-500/20",
-                icon: <BarChart3 size={40} />
+                icon: <BarChart3 size={40} />,
+                github: "https://github.com/GOPIKRISHNAN-S-15/BI-Wealth-Navigator"
               },
               {
-                title: "NeuroCrawler",
-                description: "High-performance web intelligence engine built using optimized C++ data structures for massive scaling.",
-                tags: ["C++", "Crawler", "Scale"],
+                title: "Web Crawler",
+                description: "Developed a high-performance web crawler in C++ for efficient data collection.",
+                tags: ["C++", "Networking", "Data"],
                 color: "from-emerald-500/20 to-teal-500/20",
-                icon: <Globe size={40} />
+                icon: <Globe size={40} />,
+                github: "https://github.com/GOPIKRISHNAN-S-15/Web-Crawler"
               },
               {
-                title: "SystemAuction",
-                description: "Distributed auction backend engineered for millisecond latency and absolute data transactional integrity.",
-                tags: ["Java", "Distributed", "SQL"],
+                title: "Distributed Auction System",
+                description: "Implemented a robust auction platform using Java with multi-threading support.",
+                tags: ["Java", "Multi-threading", "SQL"],
                 color: "from-orange-500/20 to-rose-500/20",
-                icon: <LayoutGrid size={40} />
+                icon: <LayoutGrid size={40} />,
+                github: "https://github.com/GOPIKRISHNAN-S-15/Auction-management-System"
               }
             ].map((project, i) => (
               <SpotlightCard key={i} className="h-full">
@@ -458,12 +573,26 @@ const App = () => {
                   <p className="text-slate-600 dark:text-slate-400 mb-10 flex-grow leading-relaxed font-medium">
                     {project.description}
                   </p>
-                  <div className="flex flex-wrap gap-3">
+                  <div className="flex flex-wrap gap-2 mt-auto">
                     {project.tags.map(tag => (
-                      <span key={tag} className="text-xs font-black px-4 py-2 bg-white/80 dark:bg-slate-800/80 text-primary-700 dark:text-primary-300 rounded-xl border border-primary-500/10 uppercase tracking-tighter">
+                      <span key={tag} className="text-[10px] font-black px-3 py-1 bg-white/40 dark:bg-slate-800/40 text-primary-700 dark:text-primary-300 rounded-lg border border-primary-500/10 uppercase tracking-tighter">
                         {tag}
                       </span>
                     ))}
+                  </div>
+                  <div className="mt-6 pt-6 border-t border-white/10">
+                    <Magnetic>
+                      <a
+                        href={project.github}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center gap-2 text-sm font-bold text-primary-500 hover:text-primary-600 transition-colors"
+                      >
+                        <Github size={18} />
+                        View on GitHub
+                        <ChevronRight size={16} />
+                      </a>
+                    </Magnetic>
                   </div>
                 </motion.div>
               </SpotlightCard>
@@ -480,10 +609,10 @@ const App = () => {
                 role: "Data Analyst Intern",
                 company: "Unified Mentor",
                 desc: "Harnessing statistical models to convert raw data into strategic business intelligence.",
-                date: "Nov 2024 - Present"
+                date: "Nov 2024"
               },
               {
-                role: "Cybersecurity Analyst Intern",
+                role: "Ethical Hacking Intern",
                 company: "Kaashiv Infotech",
                 desc: "Conducted security audits and implemented penetration testing protocols for network resilience.",
                 date: "Oct 2024"
@@ -509,11 +638,6 @@ const App = () => {
                         <p className="text-sm font-black text-primary-500/70 uppercase tracking-widest">{intern.date}</p>
                       </div>
                     </div>
-                    <Magnetic>
-                      <div className="p-4 rounded-2xl bg-primary-500 text-white shadow-lg shadow-primary-500/30 scale-0 group-hover:scale-100 transition-transform duration-500">
-                        <ChevronRight size={28} />
-                      </div>
-                    </Magnetic>
                   </div>
                   <p className="mt-8 text-xl text-slate-600 dark:text-slate-400 max-w-4xl leading-relaxed italic">
                     "{intern.desc}"
@@ -620,7 +744,7 @@ const App = () => {
               <p className="mt-6 text-sm text-slate-400 font-bold uppercase tracking-[0.2em]">© 2026 {personalInfo.name}</p>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-6">
+            <div className="flex flex-wrap justify-center items-center gap-6">
               {[
                 { icon: <Github size={24} />, href: personalInfo.github },
                 { icon: <Linkedin size={24} />, href: personalInfo.linkedin },
@@ -633,7 +757,7 @@ const App = () => {
                 <Magnetic key={i}>
                   <a
                     href={social.href}
-                    className="p-4 rounded-xl text-slate-400 hover:text-primary-500 bg-white dark:bg-slate-800 shadow-lg dark:shadow-none hover:shadow-primary-500/10 transition-all border border-slate-200 dark:border-slate-700 hover:border-primary-500/50"
+                    className="flex items-center justify-center p-4 rounded-xl text-slate-400 hover:text-primary-500 bg-white dark:bg-slate-800 shadow-lg dark:shadow-none hover:shadow-primary-500/10 transition-all border border-slate-200 dark:border-slate-700 hover:border-primary-500/50"
                     target="_blank" rel="noopener noreferrer"
                   >
                     {social.icon}
