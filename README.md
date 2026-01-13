@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# 🚀 Premium Data Science Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A state-of-the-art, interactive portfolio website built with **React**, **Tailwind CSS**, and **Framer Motion**. Designed to showcase engineering prowess and data science expertise for **Gopikrishnan S**.
 
-## Available Scripts
+![Portfolio Screenshot Placeholder](https://via.placeholder.com/1200x630/0ea5e9/ffffff?text=Premium+Data+Science+Portfolio+by+GS)
 
-In the project directory, you can run:
+## ✨ Core Features
 
-### `npm start`
+### 🎨 Visual Excellence
+- **Dynamic Interactive Background**: A custom-built Canvas-based `DynamicMesh` component that reacts to cursor movements, providing a living, breathing background.
+- **Glassmorphism Design**: Ultra-modern UI utilizing semi-transparent backgrounds, subtle blurs, and premium borders.
+- **Smooth Animations**: Integrated **Framer Motion** for refined fade-ins, floating effects, and interactive scaling transitions.
+- **Dark/Light Mode**: Seamless theme switching with persistent user preference across sessions.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### 🖱️ Technical UI/UX
+- **Interactive Cursor Follower**: A custom mouse tracker that changes state on interaction.
+- **Spotlight Cards**: Mouse-responsive gradient effects on project and skill cards.
+- **Magnetic Elements**: Navigation and social buttons that subtly gravitate towards the cursor.
+- **Real-time Progress Tracker**: Interactive scroll bar and a simulated visitor counter for enhanced engagement.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 🛠️ Tech Stack
 
-### `npm test`
+| Layer | Tool/Technology |
+| :--- | :--- |
+| **Framework** | React 19 + Vite/CRA |
+| **Styling** | Tailwind CSS 3.4 |
+| **Animations** | Framer Motion 12 |
+| **Icons** | Lucide React |
+| **Design** | Flexbox/Grid, Glassmorphism, CSS Gradients |
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 📂 Implementation Details
 
-### `npm run build`
+### Personal Information
+- **Owner**: Gopikrishnan S
+- **Role**: Data Science Student | AI & Data Science
+- **Mission**: Building intelligent systems and extracting strategic insights.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Key Sections
+1.  **About**: Highlights core metrics like CGPA (8.82) and prestigious awards.
+2.  **Education**: Detailed academic journey at M. Kumarasamy College of Engineering.
+3.  **Expertise**: Categorized skill sets covering Python, SQL, C++, and Data Visualization tools (Power BI, Tableau).
+4.  **Portfolio Work**: Showcasing projects like `Wealth Navigator`, `Web Crawler` (C++), and `Distributed Auction System` (Java).
+5.  **Industry Journey**: Documenting internships in Data Analytics, Ethical Hacking, and IT Infrastructure.
+6.  **Global Validation**: NPTEL certifications in IoT 4.0 and Ethical Hacking with mastery levels tracked.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🚀 Getting Started
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Prerequisites
+- Node.js (v18 or higher)
+- npm or yarn
 
-### `npm run eject`
+### Installation
+1.  Clone the repository:
+    ```bash
+    git clone https://github.com/GOPIKRISHNAN-S-15/portfolio.git
+    ```
+2.  Install dependencies:
+    ```bash
+    npm install
+    ```
+3.  Start the development server:
+    ```bash
+    npm start
+    ```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📈 Background & Motivation
+This portfolio serves as a bridge between traditional software engineering and the evolving world of AI/Data Science. It demonstrates the ability to not only process data but also present results through high-performance, visually stunning web applications.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
+Built with ❤️ by [Gopikrishnan S](https://github.com/GOPIKRISHNAN-S-15)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
